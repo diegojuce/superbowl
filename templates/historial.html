@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Historial</h1>
+
+        <!-- Tabla de historial -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Equipo</th>
+                    <th>Yardas</th>
+                    <th>Puntos</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for registro in registros %}
+                <tr>
+                    <td>{{ registro[0] }}</td>
+                    <td>{{ registro[1] }}</td>
+                    <td>{{ registro[2] }}</td>
+                    <td>{{ registro[3] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Tabla de acciones -->
+        <h2>Acciones</h2>
+        <table class="actions">
+            <thead>
+                <tr>
+                    <th>Equipo</th>
+                    <th>Acción</th>
+                    <th>Valor</th>
+                    <th>Aplicar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <!-- Formulario para restar yardas -->
+                    <form action="/restar_yardas" method="POST">
+                        <td>
+                            <select name="equipo_id" required>
+                                <option value="" disabled selected>Seleccionar equipo</option>
+                                {% for equipo in equipos %}
+                                <option value="{{ equipo[0] }}">{{ equipo[1] }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>Restar Yardas</td>
+                        <td>
+                            <input type="number" name="yardas" value="5" step="5" required>
+                        </td>
+                        <td>
+                            <button type="submit">Aplicar</button>
+                        </td>
+                    </form>
+                </tr>
+                <tr>
+                    <!-- Formulario para restar puntos -->
+                    <form action="/restar_puntos" method="POST">
+                        <td>
+                            <select name="equipo_id" required>
+                                <option value="" disabled selected>Seleccionar equipo</option>
+                                {% for equipo in equipos %}
+                                <option value="{{ equipo[0] }}">{{ equipo[1] }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>Restar Puntos</td>
+                        <td>
+                            <input type="number" name="puntos" value="7" step="7" required>
+                        </td>
+                        <td>
+                            <button type="submit">Aplicar</button>
+                        </td>
+                    </form>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Volver a la página principal -->
+        <a href="/" class="volver">Volver</a>
+    </div>
+</body>
+</html>

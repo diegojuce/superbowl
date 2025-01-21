@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superbowl EA 24-25</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Superbowl EA 24-25</h1>
+
+        <!-- Tabla de equipos -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Eliminar</th>
+                    <th>Equipo</th>
+                    <th>Yardas</th>
+                    <th>Puntos</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for equipo in equipos %}
+                <tr>
+                    <!-- Botón eliminar -->
+                    <td>
+                        <form action="/eliminar_equipo/{{ equipo[0] }}" method="POST" style="display: inline;">
+                            <button type="submit" class="small-delete">X</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="/editar_nombre" method="POST" style="display: inline;">
+                            <input type="hidden" name="equipo_id" value="{{ equipo[0] }}">
+                            <input type="text" name="nuevo_nombre" value="{{ equipo[1] }}" onblur="this.form.submit()" required>
+                        </form>
+                    </td>
+                    <td>{{ equipo[2] }}</td>
+                    <td>{{ equipo[3] }}</td>
+                    <td>
+                        <!-- Sumar yardas -->
+                        <form action="/sumar" method="POST" style="display: inline;">
+                            <input type="hidden" name="equipo_id" value="{{ equipo[0] }}">
+                            <input type="number" name="yardas" value="5" step="5" required>
+                            <button type="submit">Sumar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+                <!-- Formulario para agregar equipo -->
+                <tr>
+                    <td colspan="5">
+                        <form action="/agregar_equipo" method="POST">
+                            <input type="text" name="nombre_equipo" placeholder="Nombre del nuevo equipo" required>
+                            <button type="submit">Agregar Equipo</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Enlace al historial -->
+        <a href="/historial" class="historial-link">Ver historial</a>
+    </div>
+</body>
+</html>
